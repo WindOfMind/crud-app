@@ -10,7 +10,7 @@ function PeopleForm() {
     const [selectedPersonId, setSelectedPersonId] = useState();
     const [surnamePrefix, setSurnamePrefix] = useState('');
 
-    const {people, createPerson, deletePerson, updatePerson} = usePeople();
+    const { people, createPerson, deletePerson, updatePerson } = usePeople();
 
     const resetSelected = () => {
         setName("");

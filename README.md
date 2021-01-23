@@ -1,4 +1,4 @@
-# CRUD for people app 
+# CRUD app 
 
 App with a form for creating, reading, updating and deleting people's name and surname.
 App is built on the top of React library.
