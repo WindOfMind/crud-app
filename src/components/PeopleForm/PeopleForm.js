@@ -79,11 +79,13 @@ function PeopleForm() {
 
                     <div className="column">
                         <InputField
+                            id="name"
                             value={name}
                             onChange={setName}
                             labelText={'Name:'}
                         />
                         <InputField
+                            id="surname"
                             value={surname}
                             onChange={setSurname}
                             labelText={'Surname:'}

@@ -6,7 +6,6 @@ const PeopleList = ({people, onSelect}) => {
                 size="5" 
                 style={{ "height": "200px", "width": "100%" }}
                 onChange={(e) => onSelect(e.target.value)}
-                onClick={(e) => onSelect(e.target.value)}
             >
                 {people
                     .map((person) => (<option className="px-2 py-2" value={person.id} key={person.id}>{person.surname}, {person.name}</option>)) 
