@@ -6,6 +6,7 @@ App is built on the top of React library.
 ## How to run
 
 You’ll need to have Node 10.16.0 or later version on your local development machine. Check [here](https://nodejs.org/en/).
+
 In the project directory, you can run:
 
 ### `npm start`

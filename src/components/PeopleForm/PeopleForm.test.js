@@ -1,4 +1,4 @@
-import { render, screen, act, waitForElementToBeRemoved, waitFor } from '@testing-library/react';
+import { render, screen, act, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PeopleForm from "./PeopleForm";
 
@@ -18,7 +18,7 @@ jest.mock('../../common/personApiClient', () => {
         }
     ];  
 
-    const fetchPeople = async () => Promise.resolve(mockData);
+    const fetchPeople = async () => Promise.resolve([...mockData]);
     const updatePerson = async (person) => Promise.resolve(person);
     const deletePerson = async (person) => Promise.resolve(person);
     const createPerson = async (person) => Promise.resolve({id: '4a', ...person});
@@ -32,6 +32,8 @@ jest.mock('../../common/personApiClient', () => {
         }
     };     
 });
+
+afterEach(cleanup);
 
 describe('PeopleForm', () => {
     test('renders a list with people', async () => {
@@ -118,5 +120,23 @@ describe('PeopleForm', () => {
         expect(updated).toBeInTheDocument();
         expect(nameInput.value).toBe('BillThomas');
         expect(surnameInput.value).toBe('GatesJones');
+    });
+
+    test('user types in the prefix bar', async () => {     
+        render(<PeopleForm />);
+
+        const prefixInput = screen.getByLabelText("Filter prefix:", { selector: 'input' });
+        const nameInput = screen.getByLabelText("Name:", { selector: 'input' });
+        const surnameInput = screen.getByLabelText("Surname:", { selector: 'input' });
+
+        await act(async () => {
+            await userEvent.type(prefixInput, 'a');
+        });
+
+        const options = screen.queryAllByRole('option');
+
+        expect(options.length).toBe(0);
+        expect(nameInput.value).toBe('');
+        expect(surnameInput.value).toBe('');
     });
 });
