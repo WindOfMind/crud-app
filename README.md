@@ -9,6 +9,10 @@ You’ll need to have Node 10.16.0 or later version on your local development ma
 
 In the project directory, you can run:
 
+### `npm install`
+
+Run it before first build to install all dependencies. 
+
 ### `npm start`
 
 Runs the app in the development mode.\
