@@ -7,7 +7,7 @@ const InputField = ({value, onChange, labelText}) => {
             <div className="field-body" style={{ "flex": "4" }}>
                 <div className="field">
                     <div className="control">
-                        <input className="input" type="text" id="name" value={value} onChange={(e) => onChange(e.target.value)}></input>
+                        <input className="input" type="text" value={value} onChange={(e) => onChange(e.target.value)}></input>
                     </div>
                 </div>
             </div>

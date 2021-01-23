@@ -7,7 +7,7 @@ const PrefixSearchBar = ({ prefix, setPrefix, width }) => {
             <div className="field-body" style={{ "flex": "2.5", "paddingRight": "12px" }}>
                 <div className="field">
                     <div className="control">
-                        <input className="input" type="text" id="prefix-filter" value ={prefix} onChange={(e) => setPrefix(e.target.value)}></input>
+                        <input className="input" type="text" value ={prefix} onChange={(e) => setPrefix(e.target.value)}></input>
                     </div>
                 </div>
             </div>

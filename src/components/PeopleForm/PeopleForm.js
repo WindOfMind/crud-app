@@ -1,26 +1,22 @@
-import { useEffect, useState } from 'react';
-import personApiClient from '../../common/personApiClient';
+import { useState } from 'react';
 import PrefixSearchBar from '../PrefixSearchBar/PrefixSearchBar';
 import InputField from '../InputField/InputField';
 import PeopleList from '../PeopleList/PeopleList';
+import usePeople from '../../hooks/usePeople';
 
 function PeopleForm() {
-
-    const {fetchPeople, updatePerson, deletePerson, createPerson} = personApiClient();
-
-    const [people, setPeople] = useState([]);
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [selectedPersonId, setSelectedPersonId] = useState();
     const [surnamePrefix, setSurnamePrefix] = useState('');
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const fetchedPeople = await fetchPeople();
-            setPeople(fetchedPeople);
-        }
-        fetchData();
-    }, []);
+    const {people, createPerson, deletePerson, updatePerson} = usePeople();
+
+    const resetSelected = () => {
+        setName("");
+        setSurname("");
+        setSelectedPersonId();
+    };
 
     const setSelectedPerson = (id) =>
     {
@@ -34,21 +30,16 @@ function PeopleForm() {
 
     const onCreate = async () => 
     {
-        const newPerson = await createPerson({name, surname});
-        setPeople([...people, newPerson]);
-
-        setName("");
-        setSurname("");
+        createPerson(name, surname);
+        resetSelected();
     };
 
     const onDelete = async () => 
     {
         if (selectedPersonId)
         {
-            setPeople(people.filter(p => p.id !== selectedPersonId));
-            await deletePerson(selectedPersonId);
-            setName("");
-            setSurname("");
+            deletePerson(selectedPersonId);
+            resetSelected();
         }
     };
 
@@ -56,19 +47,14 @@ function PeopleForm() {
     {
         if (selectedPersonId && name && surname)
         {
-            const index = people.findIndex(p => p.id === selectedPersonId);
-            const updated = {id: selectedPersonId, name, surname};
-            people.splice(index, 1, updated);
-            setPeople([...people]);
-            await updatePerson(updated);
+            updatePerson({id: selectedPersonId, name, surname});
         }
     };
 
     const onSearch = (prefix) =>
     {
         setSurnamePrefix(prefix);
-        setName("");
-        setSurname("");
+        resetSelected();
     }
 
     const filterPeople = (surnamePrefix) => 
