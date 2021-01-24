@@ -97,12 +97,12 @@ function PeopleForm() {
                     </button>
                 </p>
                 <p className="control">
-                    <button className="button is-light" onClick={onUpdate}>
+                    <button className="button is-light" onClick={onUpdate} disabled={!selectedPersonId}>
                         Update
                     </button>
                 </p>
                 <p className="control">
-                    <button className="button is-light" onClick={onDelete}>
+                    <button className="button is-light" onClick={onDelete} disabled={!selectedPersonId}>
                         Delete
                     </button>
                 </p>
