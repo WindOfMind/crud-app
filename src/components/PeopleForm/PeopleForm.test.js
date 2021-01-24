@@ -55,8 +55,11 @@ describe('PeopleForm', () => {
         const createButton = screen.getByText('Create');
 
         await act(async () => {
-            await userEvent.type(nameInput, 'J');          
-            await userEvent.type(surnameInput, 'S');
+            await userEvent.type(nameInput, 'J', {delay: 10});          
+            await userEvent.type(surnameInput, 'S', {delay: 10});
+        });
+
+        await act(async () => {
             await userEvent.click(createButton);
         });
 
@@ -111,15 +114,22 @@ describe('PeopleForm', () => {
 
         await act(async () => {
             await userEvent.selectOptions(list, option);
-            await userEvent.type(nameInput, 'Thomas');
-            await userEvent.type(surnameInput, 'Jones')
+        });
+
+        await act(async () => {
+            await userEvent.type(nameInput, 'T');
+        });
+
+        await act(async () => {
+            await userEvent.type(surnameInput, 'J');
+        });
+
+        await act(async () => {
             await userEvent.click(updateButton);
         });
 
-        const updated = await screen.findByText('GatesJones, BillThomas');
+        const updated = await screen.findByText('GatesJ, BillT');
         expect(updated).toBeInTheDocument();
-        expect(nameInput.value).toBe('BillThomas');
-        expect(surnameInput.value).toBe('GatesJones');
     });
 
     test('user types in the prefix bar', async () => {     

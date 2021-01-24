@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PrefixSearchBar from '../PrefixSearchBar/PrefixSearchBar';
 import InputField from '../InputField/InputField';
 import PeopleList from '../PeopleList/PeopleList';
@@ -18,20 +18,23 @@ function PeopleForm() {
         setSelectedPersonId();
     };
 
-    const setSelectedPerson = (id) =>
-    {
-        if (id) {
-            setSelectedPersonId(id);
-            const { name, surname } = people.find(p => p.id === id);
-            setName(name);
-            setSurname(surname);
+    useEffect(() => {
+        if (selectedPersonId)
+        {
+            const person = people.find(p => p.id === selectedPersonId);
+            if (person)
+            {
+                setName(person.name);
+                setSurname(person.surname);
+            }
         }
-    }
+    }, [selectedPersonId, people]);
+
+    useEffect(() => resetSelected(), [surnamePrefix, people]);
 
     const onCreate = async () => 
     {
         createPerson(name, surname);
-        resetSelected();
     };
 
     const onDelete = async () => 
@@ -39,7 +42,6 @@ function PeopleForm() {
         if (selectedPersonId)
         {
             deletePerson(selectedPersonId);
-            resetSelected();
         }
     };
 
@@ -51,12 +53,6 @@ function PeopleForm() {
         }
     };
 
-    const onSearch = (prefix) =>
-    {
-        setSurnamePrefix(prefix);
-        resetSelected();
-    }
-
     const filterPeople = (surnamePrefix) => 
         people.filter((person) => !surnamePrefix || person.surname.toLowerCase().startsWith(surnamePrefix));
  
@@ -64,7 +60,7 @@ function PeopleForm() {
         <div className="container mt-4" style={{ "maxWidth": "800px" }}>
             <PrefixSearchBar
                 prefix={surnamePrefix}
-                setPrefix={onSearch}
+                setPrefix={setSurnamePrefix}
                 width="50%"
             />
 
@@ -73,7 +69,7 @@ function PeopleForm() {
                     <div className="column">
                         <PeopleList
                             people={filterPeople(surnamePrefix)}
-                            onSelect={setSelectedPerson}
+                            onSelect={setSelectedPersonId}
                         />
                     </div>
 

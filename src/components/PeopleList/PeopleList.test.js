@@ -80,6 +80,6 @@ describe('PeopleList', () => {
         const list = screen.getByRole('listbox');
         userEvent.selectOptions(list, '1');
 
-        expect(onSelect).toHaveBeenCalledTimes(1);
+        expect(onSelect).toHaveBeenCalledTimes(2);
     });
   });

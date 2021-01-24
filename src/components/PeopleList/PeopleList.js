@@ -5,6 +5,7 @@ const PeopleList = ({people, onSelect}) => {
                 className="px-0 py-0" 
                 size="5" 
                 style={{ "height": "200px", "width": "100%" }}
+                onClick={(e) => onSelect(e.target.value)}
                 onChange={(e) => onSelect(e.target.value)}
             >
                 {people
