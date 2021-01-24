@@ -17,8 +17,11 @@ const usePeople = (baseUrl, path) => {
 
     const onCreatePerson = async (name, surname) => 
     {
-        const newPerson = await createPerson({name, surname});
-        setPeople([...people, newPerson]);
+        if (name && surname)
+        {
+            const newPerson = await createPerson({name, surname});
+            setPeople([...people, newPerson]);
+        }
     };
 
     const onDeletePerson = async (personId) => 
