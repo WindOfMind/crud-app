@@ -36,8 +36,16 @@ jest.mock('../../common/personApiClient', () => {
 afterEach(cleanup);
 
 describe('PeopleForm', () => {
-    test('renders a list with people', async () => {
+    test('renders a list with people, and nothing is selected', async () => {
         render(<PeopleForm />);
+
+        const nameInput = screen.getByLabelText("Name:", { selector: 'input' });
+        const surnameInput = screen.getByLabelText("Surname:", { selector: 'input' });
+        const prefixInput = screen.getByLabelText("Filter prefix:", { selector: 'input' });
+
+        const createButton = screen.getByText('Create');
+        const deleteButton = screen.getByText('Delete');
+        const updateButton = screen.getByText('Update');
 
         const list = screen.getByRole('listbox');
         const options = await screen.findAllByRole('option');
@@ -45,6 +53,14 @@ describe('PeopleForm', () => {
         expect(list).toBeInTheDocument();
         options.forEach(o => expect(o).toBeInTheDocument());
         expect(options.length).toBe(3);
+
+        expect(nameInput.value).toBe('');
+        expect(surnameInput.value).toBe('');
+        expect(prefixInput.value).toBe('');
+
+        expect(createButton).toHaveAttribute('disabled');
+        expect(deleteButton).toHaveAttribute('disabled');
+        expect(updateButton).toHaveAttribute('disabled');
     });
 
     test('user types name and surname and creates a new person', async () => {    
