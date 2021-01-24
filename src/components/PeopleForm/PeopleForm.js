@@ -7,15 +7,15 @@ import usePeople from '../../hooks/usePeople';
 function PeopleForm() {
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
-    const [selectedPersonId, setSelectedPersonId] = useState();
+    const [selectedPersonId, setSelectedPersonId] = useState('');
     const [surnamePrefix, setSurnamePrefix] = useState('');
 
     const { people, createPerson, deletePerson, updatePerson } = usePeople();
 
     const resetSelected = () => {
-        setName("");
-        setSurname("");
-        setSelectedPersonId();
+        setName('');
+        setSurname('');
+        setSelectedPersonId('');
     };
 
     useEffect(() => {
@@ -92,7 +92,7 @@ function PeopleForm() {
             
             <div className="field is-grouped">
                 <p className="control">
-                    <button className="button is-light" onClick={onCreate}>
+                    <button className="button is-light" onClick={onCreate} disabled={!name || !surname}>
                         Create
                     </button>
                 </p>
@@ -107,7 +107,6 @@ function PeopleForm() {
                     </button>
                 </p>
             </div>
-
         </div>
     ); 
 }
