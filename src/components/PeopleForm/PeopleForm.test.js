@@ -95,24 +95,33 @@ describe('PeopleForm', () => {
         const nameInput = screen.getByLabelText("Name:", { selector: 'input' });
         const surnameInput = screen.getByLabelText("Surname:", { selector: 'input' });
 
-        await act(async () => {
-            await userEvent.selectOptions(list, option);
+        const deleteButton = screen.getByText('Delete');
+        const updateButton = screen.getByText('Update');
+
+        act(() => {
+            userEvent.selectOptions(list, option);
         });
 
         expect(nameInput.value).toBe('Bill');
         expect(surnameInput.value).toBe('Gates');
+
+        expect(deleteButton).not.toHaveAttribute('disabled');
+        expect(updateButton).not.toHaveAttribute('disabled');
     });
 
-    test('user selects a person and delete', async () => {     
+    test('user selects a person and deletes', async () => {     
         render(<PeopleForm />);
 
         const list = screen.getByRole('listbox');
         const option = await screen.findByText('Gates, Bill');
         const deleteButton = screen.getByText('Delete');
 
-        await act(async () => {
-            await userEvent.selectOptions(list, option);
-            await userEvent.click(deleteButton);
+        act(() => {
+            userEvent.selectOptions(list, option);
+        });
+
+        act(() => {
+            userEvent.click(deleteButton);
         });
 
         const deleted = screen.queryByText('Gates, Bill');
@@ -128,20 +137,20 @@ describe('PeopleForm', () => {
         const nameInput = screen.getByLabelText("Name:", { selector: 'input' });
         const surnameInput = screen.getByLabelText("Surname:", { selector: 'input' });
 
-        await act(async () => {
-            await userEvent.selectOptions(list, option);
+        act(() => {
+            userEvent.selectOptions(list, option);
         });
 
         await act(async () => {
-            await userEvent.type(nameInput, 'T');
+            await userEvent.type(nameInput, 'T', {delay: 10});
         });
 
         await act(async () => {
-            await userEvent.type(surnameInput, 'J');
+            await userEvent.type(surnameInput, 'J', {delay: 10});
         });
 
-        await act(async () => {
-            await userEvent.click(updateButton);
+        act(() => {
+            userEvent.click(updateButton);
         });
 
         const updated = await screen.findByText('GatesJ, BillT');
@@ -156,7 +165,7 @@ describe('PeopleForm', () => {
         const surnameInput = screen.getByLabelText("Surname:", { selector: 'input' });
 
         await act(async () => {
-            await userEvent.type(prefixInput, 'a');
+            await userEvent.type(prefixInput, 'a', {delay: 10});
         });
 
         const options = screen.queryAllByRole('option');
