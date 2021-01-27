@@ -3,20 +3,14 @@ import PrefixSearchBar from '../PrefixSearchBar/PrefixSearchBar';
 import InputField from '../InputField/InputField';
 import PeopleList from '../PeopleList/PeopleList';
 import usePeople from '../../hooks/usePeople';
+import filterPeople from '../../common/filterPeople';
 
 function PeopleForm() {
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [selectedPersonId, setSelectedPersonId] = useState('');
     const [surnamePrefix, setSurnamePrefix] = useState('');
-
     const { people, createPerson, deletePerson, updatePerson } = usePeople();
-
-    const resetSelected = () => {
-        setName('');
-        setSurname('');
-        setSelectedPersonId('');
-    };
 
     useEffect(() => {
         if (selectedPersonId)
@@ -30,31 +24,14 @@ function PeopleForm() {
         }
     }, [selectedPersonId, people]);
 
-    useEffect(() => resetSelected(), [surnamePrefix, people]);
-
-    const onCreate = async () => 
-    {
-        createPerson(name, surname);
-    };
-
-    const onDelete = async () => 
-    {
-        if (selectedPersonId)
-        {
-            deletePerson(selectedPersonId);
-        }
-    };
-
-    const onUpdate = async () =>
-    {
-        if (selectedPersonId && name && surname)
-        {
-            updatePerson({id: selectedPersonId, name, surname});
-        }
-    };
-
-    const filterPeople = (surnamePrefix) => 
-        people.filter((person) => !surnamePrefix || person.surname.toLowerCase().startsWith(surnamePrefix.toLowerCase()));
+    useEffect(() => {
+        const resetSelected = () => {
+            setName('');
+            setSurname('');
+            setSelectedPersonId('');
+        };
+        resetSelected();
+    }, [surnamePrefix, people]);
  
     return (
         <div className="container mt-4" style={{ "maxWidth": "800px" }}>
@@ -68,7 +45,7 @@ function PeopleForm() {
                 <div className="columns">
                     <div className="column">
                         <PeopleList
-                            people={filterPeople(surnamePrefix)}
+                            people={filterPeople(surnamePrefix, people)}
                             onSelect={setSelectedPersonId}
                         />
                     </div>
@@ -92,17 +69,17 @@ function PeopleForm() {
             
             <div className="field is-grouped">
                 <p className="control">
-                    <button className="button is-light" onClick={onCreate} disabled={!name || !surname}>
+                    <button className="button is-light" onClick={() => createPerson(name, surname)} disabled={!name || !surname}>
                         Create
                     </button>
                 </p>
                 <p className="control">
-                    <button className="button is-light" onClick={onUpdate} disabled={!selectedPersonId}>
+                    <button className="button is-light" onClick={() => updatePerson({id: selectedPersonId, name, surname})} disabled={!selectedPersonId}>
                         Update
                     </button>
                 </p>
                 <p className="control">
-                    <button className="button is-light" onClick={onDelete} disabled={!selectedPersonId}>
+                    <button className="button is-light" onClick={() => deletePerson(selectedPersonId)} disabled={!selectedPersonId}>
                         Delete
                     </button>
                 </p>
