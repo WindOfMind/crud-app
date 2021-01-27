@@ -54,7 +54,7 @@ function PeopleForm() {
     };
 
     const filterPeople = (surnamePrefix) => 
-        people.filter((person) => !surnamePrefix || person.surname.toLowerCase().startsWith(surnamePrefix));
+        people.filter((person) => !surnamePrefix || person.surname.toLowerCase().startsWith(surnamePrefix.toLowerCase()));
  
     return (
         <div className="container mt-4" style={{ "maxWidth": "800px" }}>
