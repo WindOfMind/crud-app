@@ -36,7 +36,7 @@ jest.mock('../../common/personApiClient', () => {
 afterEach(cleanup);
 
 describe('PeopleForm', () => {
-    test('renders a list with people, and nothing is selected', async () => {
+    test('renders a form with a list, a search input, name and surname inputs, and disabled buttons for creating, updating and deleting', async () => {
         render(<PeopleForm />);
 
         const nameInput = screen.getByLabelText("Name:", { selector: 'input' });
@@ -63,7 +63,7 @@ describe('PeopleForm', () => {
         expect(updateButton).toHaveAttribute('disabled');
     });
 
-    test('user types name and surname and creates a new person', async () => {    
+    test('user types name and surname and creates a new person, new options is appended to a list', async () => {    
         render(<PeopleForm />);
 
         const nameInput = screen.getByLabelText("Name:", { selector: 'input' });
@@ -86,7 +86,7 @@ describe('PeopleForm', () => {
         expect(surnameInput.value).toBe('');
     });
 
-    test('user selects a person', async () => {     
+    test('user selects a person and name and surname inputs contain name and surname, buttons are disabled', async () => {     
         render(<PeopleForm />);
 
         const list = screen.getByRole('listbox');
@@ -109,7 +109,7 @@ describe('PeopleForm', () => {
         expect(updateButton).not.toHaveAttribute('disabled');
     });
 
-    test('user selects a person and deletes', async () => {     
+    test('user selects a person and deletes, the list does not contain this option anymore', async () => {     
         render(<PeopleForm />);
 
         const list = screen.getByRole('listbox');
@@ -128,7 +128,7 @@ describe('PeopleForm', () => {
         expect(deleted).toBeNull() 
     });
 
-    test('user selects a person and updates', async () => {     
+    test('user selects a person and updates, and option is updated in the list', async () => {     
         render(<PeopleForm />);
 
         const list = screen.getByRole('listbox');
@@ -157,7 +157,7 @@ describe('PeopleForm', () => {
         expect(updated).toBeInTheDocument();
     });
 
-    test('user types in the prefix bar', async () => {     
+    test('user types in the prefix bar, the list with options is filtered', async () => {     
         render(<PeopleForm />);
 
         const prefixInput = screen.getByLabelText("Filter prefix:", { selector: 'input' });

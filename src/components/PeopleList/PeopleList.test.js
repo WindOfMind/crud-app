@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import PeopleList from './PeopleList';
 
 describe('PeopleList', () => {
-    test('renders PeopleList', () => {
+    test('renders PeopleList with select and options', () => {
         const people = [
             {
                 id: 1,
@@ -34,7 +34,7 @@ describe('PeopleList', () => {
         expect(options.length).toBe(3);
     });
 
-    test('renders options with surname, name', () => {
+    test('renders a list of options with surname, name', () => {
         const people = [
             {
                 id: 1,
@@ -52,7 +52,7 @@ describe('PeopleList', () => {
         expect(option).toBeInTheDocument();
     });
 
-    test('calls the onSelect callback handler', () => {
+    test('calls the onSelect callback handler when select happens', () => {
         const onSelect = jest.fn();
 
         const people = [

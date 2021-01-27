@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import InputField from './InputField';
 
 describe('InputField', () => {
-  test('renders InputField with value and label', () => {
+  test('renders InputField with input and label', () => {
     render(<InputField 
         value='test value'
         labelText={'Label:'}
@@ -16,7 +16,7 @@ describe('InputField', () => {
     expect(input).toBeInTheDocument();
   });
 
-  test('calls the onChange callback handler', async () => {
+  test('calls the onChange callback handler when text is typed in the input', async () => {
     const onChange = jest.fn();
 
     render(<InputField 

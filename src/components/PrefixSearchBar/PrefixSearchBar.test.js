@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import PrefixSearchBar from './PrefixSearchBar';
 
 describe('PrefixSearchBar', () => {
-    test('renders PrefixSearchBar with value and label', () => {
+    test('renders PrefixSearchBar with input and label', () => {
         render(<PrefixSearchBar 
             prefix='test value'
         />);
@@ -15,7 +15,7 @@ describe('PrefixSearchBar', () => {
         expect(input).toBeInTheDocument();
     });
   
-    test('calls the setPrefix callback handler', async () => {
+    test('calls the setPrefix callback handler on changing', async () => {
         const onChange = jest.fn();
   
         render(<PrefixSearchBar
